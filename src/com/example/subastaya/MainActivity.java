@@ -1,19 +1,22 @@
 package com.example.subastaya;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.EditText;
 
 public class MainActivity extends ActionBarActivity {
 
-    @Override
+    static final String EXTRA_QUERY = "QUERY";
+	static final String EXTRA_INDEX = "INDEX";
+
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -60,6 +63,15 @@ public class MainActivity extends ActionBarActivity {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
+    }
+    
+    /** Called when the user clicks the Search button */
+    public void search(View view) {
+    	Intent intent = new Intent(this, AuctionActivity.class);
+    	EditText editText = (EditText) findViewById(R.id.query);
+    	String query = editText.getText().toString();   	
+    	intent.putExtra(EXTRA_QUERY, query);  
+    	startActivity(intent);
     }
 
 }

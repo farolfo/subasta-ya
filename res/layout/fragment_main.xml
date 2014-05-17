@@ -39,7 +39,7 @@
         android:text="subastas en MercadoLibre" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/query"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView3"
@@ -54,9 +54,10 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@+id/query"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="38dp"
+        android:onClick="search"
         android:text="Buscar" />
 
 </RelativeLayout>
