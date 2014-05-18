@@ -20,7 +20,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/nextArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -29,12 +29,17 @@
         android:src="@drawable/abc_ic_go" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/prevArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:onClick="prevProduct"
         android:src="@drawable/abc_ic_ab_back_holo_light" />
+    
+     <fragment android:name="com.example.subastaya.MainProductInfoFragment"
+              android:id="@+id/headlines_fragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" />
     
 </RelativeLayout>
