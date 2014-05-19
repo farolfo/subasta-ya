@@ -3,6 +3,14 @@ package com.example.subastaya;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+import com.example.subastaya.apimodels.ProductSearch;
+import com.example.subastaya.apimodels.Result;
+
 public class AuctionImpl implements Auction {
 	
 	List<Product> products = new ArrayList<Product>();
@@ -10,14 +18,23 @@ public class AuctionImpl implements Auction {
 	Integer index = -1; // Means the product you are currently looking at
 	
 	AuctionImpl(String query) {
-		this.products.add( new ProductImpl("Producto 1") );
-		this.products.add( new ProductImpl("Producto 2") );
-		this.products.add( new ProductImpl("Producto 3") );
-		this.products.add( new ProductImpl("Producto 4") );
-		this.products.add( new ProductImpl("Producto 5") );
-		this.products.add( new ProductImpl("Producto 6") );
+		RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint("https://api.mercadolibre.com").build();
+		MercadoLibreAPI mercadoLibreService = restAdapter.create(MercadoLibreAPI.class);
 		
-		this.page = 0;
+		mercadoLibreService.searchByQuery(query, new Callback<ProductSearch>() {	    
+		    @Override
+		    public void failure(RetrofitError retrofitError) {
+		    	
+		    	System.out.println("error");
+		    }
+
+			@Override
+			public void success(ProductSearch productSearch, Response arg1) {
+				for (Result result : productSearch.getResults()) {
+					products.add( new ProductImpl(result.getTitle()) );
+				}				
+			}
+		});
 	}
 	
 	@Override

@@ -43,7 +43,7 @@ public class AuctionActivity extends ActionBarActivity {
 	    
 	    this.auction = new AuctionImpl(query);
 	    this.product = this.auction.nextProduct();
-	    displayCurrentProduct();
+	    //displayCurrentProduct();
 	}
 	
 	private void displayCurrentProduct() {
