@@ -16,6 +16,8 @@ public class AuctionActivity extends ActionBarActivity {
 	private Auction auction;
 	private TextView productTitle;
 	private Product product;
+	private MainProductInfoFragment mainProductInfo;
+	private Boolean canGoPrev; // checks if the user is able to go click on prev button
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,18 +38,34 @@ public class AuctionActivity extends ActionBarActivity {
 		// Get the message from the intent
 	    Intent intent = getIntent();
 	    String query = intent.getStringExtra(MainActivity.EXTRA_QUERY);
-	
-	    this.productTitle = new TextView(this); 
-	    productTitle = (TextView) findViewById(R.id.productTitle);
-	    productTitle.setTextSize(40);
 	    
-	    this.auction = new AuctionImpl(query);
-	    this.product = this.auction.nextProduct();
-	    //displayCurrentProduct();
+	    this.mainProductInfo = (MainProductInfoFragment) getSupportFragmentManager().findFragmentById(R.id.mainproductinfo_fragment);
+	    
+	    this.auction = new AuctionImpl(query, this);
+	    
+	    try{
+			this.product = this.auction.nextProduct();
+			displayCurrentProduct();
+		} catch(NoItemsFoundException e) {
+			//show loading, this is
+			displayCurrentProduct();
+			this.canGoPrev = e.canGoPrev();
+		}
 	}
 	
-	private void displayCurrentProduct() {
-	    productTitle.setText(this.product.getName());
+	public void displayCurrentProduct() {
+		this.mainProductInfo.setContent(this.product);
+	}
+	
+	public void onProductsUpdated(){
+		try{
+			this.product = this.auction.nextProduct();
+			displayCurrentProduct();
+		} catch(NoItemsFoundException e) {
+			//show loading, this is
+			displayCurrentProduct();
+			this.canGoPrev = e.canGoPrev();
+		}
 	}
 
 	@Override
@@ -96,10 +114,18 @@ public class AuctionActivity extends ActionBarActivity {
 	}
 
 	public void prevProduct(View view) {
-		Product product = this.auction.prevProduct();
-		if ( product != null ) {
-			this.product = product;
-			displayCurrentProduct();
-		}
+		  try{
+				this.product = this.auction.nextProduct();
+				displayCurrentProduct();
+			} catch(NoItemsFoundException e) {
+				//show loading, this is
+				displayCurrentProduct();
+				this.canGoPrev = e.canGoPrev();
+			}
+	}
+
+	public void updateView() {
+		// TODO Auto-generated method stub
+		
 	}
 }

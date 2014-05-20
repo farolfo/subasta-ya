@@ -27,7 +27,7 @@
         android:src="@drawable/abc_ic_ab_back_holo_light" />
     
      <fragment android:name="com.example.subastaya.MainProductInfoFragment"
-              android:id="@+id/headlines_fragment"
+              android:id="@+id/mainproductinfo_fragment"
               android:layout_width="match_parent"
               android:layout_height="match_parent" />
     
