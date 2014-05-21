@@ -1,5 +1,8 @@
 package com.example.subastaya;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,15 +12,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 
 public class AuctionActivity extends ActionBarActivity {
 
 	private Auction auction;
-	private TextView productTitle;
 	private Product product;
+	
 	private MainProductInfoFragment mainProductInfo;
-	private Boolean canGoPrev; // checks if the user is able to go click on prev button
+	private Boolean canGoPrev = false; // checks if the user is able to go click on prev button
+	private Boolean canGoNext = false; // checks if the user is able to go click on prev button
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,31 +45,39 @@ public class AuctionActivity extends ActionBarActivity {
 	    
 	    this.mainProductInfo = (MainProductInfoFragment) getSupportFragmentManager().findFragmentById(R.id.mainproductinfo_fragment);
 	    
-	    this.auction = new AuctionImpl(query, this);
+	    this.auction = new AuctionImpl(query);
 	    
-	    try{
-			this.product = this.auction.nextProduct();
-			displayCurrentProduct();
-		} catch(NoItemsFoundException e) {
-			//show loading, this is
-			displayCurrentProduct();
-			this.canGoPrev = e.canGoPrev();
-		}
+	    mainProductInfo.setLoading();
+	    
+	    this.auction.nextProduct(new Callback<AuctionResponse>() {
+			    @Override
+				public void success(AuctionResponse auctionResponse, Response arg1) {
+					/*
+					*/
+			    	if (auctionResponse.getState() == AuctionState.API_ERROR) {
+			    		//displayServerError();
+			    		//return;
+			    	} else if (auctionResponse.getState() == AuctionState.EMPTY_RESULTS) {
+			    		mainProductInfo.showEmptyResultsMessage();
+			    		return;
+			    	}
+			    	product = auctionResponse.getProduct();
+			    	displayCurrentProduct();
+			    	
+			    	canGoNext = auctionResponse.hasNext();
+			    	canGoPrev = auctionResponse.hasPrevious();
+			    	//updateActionEnableing();
+				}
+
+				@Override
+				public void failure(RetrofitError arg0) {
+				}
+	    });
+	    	   
 	}
-	
+		
 	public void displayCurrentProduct() {
 		this.mainProductInfo.setContent(this.product);
-	}
-	
-	public void onProductsUpdated(){
-		try{
-			this.product = this.auction.nextProduct();
-			displayCurrentProduct();
-		} catch(NoItemsFoundException e) {
-			//show loading, this is
-			displayCurrentProduct();
-			this.canGoPrev = e.canGoPrev();
-		}
 	}
 
 	@Override
@@ -106,26 +118,56 @@ public class AuctionActivity extends ActionBarActivity {
 	}
 	
 	public void nextProduct(View view) {
-		Product product = this.auction.nextProduct();
-		if ( product != null ) {
-			this.product = product;
-			displayCurrentProduct();
+		if ( this.canGoNext ) {
+			this.canGoNext = false;
+			this.canGoPrev = false;
+		    mainProductInfo.setLoading();
+
+			this.auction.nextProduct(new Callback<AuctionResponse>() {
+			    @Override
+				public void success(AuctionResponse auctionResponse, Response arg1) {
+			    	if (auctionResponse.getState() == AuctionState.API_ERROR) {
+			    		//displayServerError();
+			    		//return;
+			    	}
+			    	product = auctionResponse.getProduct();
+			    	displayCurrentProduct();
+			    	canGoNext = auctionResponse.hasNext();
+			    	canGoPrev = auctionResponse.hasPrevious();
+			    	//updateActionEnableing();
+				}
+	
+				@Override
+				public void failure(RetrofitError arg0) {
+				}
+			});
 		}
 	}
-
+	
 	public void prevProduct(View view) {
-		  try{
-				this.product = this.auction.nextProduct();
-				displayCurrentProduct();
-			} catch(NoItemsFoundException e) {
-				//show loading, this is
-				displayCurrentProduct();
-				this.canGoPrev = e.canGoPrev();
-			}
-	}
+		if ( this.canGoPrev ) {
+			this.canGoNext = false;
+			this.canGoPrev = false;
+		    mainProductInfo.setLoading();
 
-	public void updateView() {
-		// TODO Auto-generated method stub
-		
+			this.auction.prevProduct(new Callback<AuctionResponse>() {
+			    @Override
+				public void success(AuctionResponse auctionResponse, Response arg1) {
+			    	if (auctionResponse.getState() == AuctionState.API_ERROR) {
+			    		//displayServerError();
+			    		//return;
+			    	}
+			    	product = auctionResponse.getProduct();
+			    	displayCurrentProduct();
+			    	canGoNext = auctionResponse.hasNext();
+			    	canGoPrev = auctionResponse.hasPrevious();
+			    	//updateActionEnableing();
+				}
+	
+				@Override
+				public void failure(RetrofitError arg0) {
+				}
+			});
+		}
 	}
 }

@@ -1,9 +1,10 @@
 package com.example.subastaya;
 
+import retrofit.Callback;
+
 public interface Auction {
 
-	public Product nextProduct() throws NoItemsFoundException;
-	public Product prevProduct() throws NoItemsFoundException;
-	public Product currentProduct() throws NoItemsFoundException;
+	public void nextProduct(Callback<AuctionResponse> callback);
+	public void prevProduct(Callback<AuctionResponse> callback);
 	
 }

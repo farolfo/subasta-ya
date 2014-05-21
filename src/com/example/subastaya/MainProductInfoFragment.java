@@ -39,4 +39,10 @@ public class MainProductInfoFragment extends Fragment {
     		this.setLoading();
     	}
     }
+
+	public void showEmptyResultsMessage() {
+		initProductTitle();
+    	this.productTitle.setText("No results were found"); 
+	}
+
 }

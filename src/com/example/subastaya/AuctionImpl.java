@@ -14,121 +14,171 @@ import com.example.subastaya.apimodels.Result;
 public class AuctionImpl implements Auction {
 	
 	private static final Integer MAX_PRODS_PER_CALL = 50;
+	
 	List<Product> products = new ArrayList<Product>();
 	Integer page = 0; // Page of the search you are currently in
 	Integer index = 0; // Means the product you are currently looking at
+	Integer total = -1;
+	
+	boolean isApiCallPending = false;
 	
 	MercadoLibreAPI mercadoLibreService;
 	String query;
-	AuctionState state = AuctionState.FETCHING_DATA; 
 	
-	//I know this is horrible to do here but I can't find a better way to communicate the rest response to the activity, code review is wellcome
-	AuctionActivity auctionActivity;
-	private boolean hasPagesLeft = true;
-	
-	AuctionImpl(final String query, final AuctionActivity auctionActivity) {
-		this.auctionActivity = auctionActivity;
+	AuctionImpl(final String query) {
 		this.query = query;
 		
 		RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint("https://api.mercadolibre.com").build();
 		this.mercadoLibreService = restAdapter.create(MercadoLibreAPI.class);
-		
-		fetch();
 	}
 	
-	public void fetch() {
-		this.state = AuctionState.FETCHING_DATA; 
-		mercadoLibreService.searchByQuery(query, MAX_PRODS_PER_CALL, page * MAX_PRODS_PER_CALL, new Callback<ProductSearch>() {	    
-		    @Override
-		    public void failure(RetrofitError retrofitError) {		    	
-		    	System.out.println("error");
-				state = AuctionState.API_ERROR; 
-		    }
+	public void fetch(final Callback<AuctionResponse> callback) {
+		if ( ! this.isApiCallPending ) {
+			this.isApiCallPending = true;
+			this.mercadoLibreService.searchByQuery(this.query, MAX_PRODS_PER_CALL, page * MAX_PRODS_PER_CALL, 
+					new Callback<ProductSearch> () {
+				
+						@Override
+						public void failure(RetrofitError arg0) {
+							isApiCallPending = false;
+							callback.success(new AuctionResponse(AuctionState.API_ERROR, null, false, false), null);							
+						}
 
-			@Override
-			public void success(ProductSearch productSearch, Response arg1) {
-				products.clear();
-				for (Result result : productSearch.getResults()) {
-					products.add( new ProductImpl(result.getTitle()) );
-				}		
-				state = AuctionState.SHOWING_ITEMS; 
-				index = -1;
-				checkIfHasLeftPages(productSearch);
-				auctionActivity.onProductsUpdated();
-			}
-		});
+						@Override
+						public void success(ProductSearch productSearch, Response arg1) {
+							isApiCallPending = false;
+							products.clear();
+							AuctionState state;
+							
+							for (Result result : productSearch.getResults()) {
+								products.add( new ProductImpl(result.getTitle()) );
+							}	
+							
+							if ( products.isEmpty() ) {
+								state = AuctionState.EMPTY_RESULTS; 
+							} else {
+								state = AuctionState.OK;
+							}
+							
+							total = productSearch.getPaging().getTotal();
+							
+							callback.success(new AuctionResponse(state, null, false, false), null);							
+						}
+				
+			}); 
+		}
 	}
 	
-	public void checkIfHasLeftPages(ProductSearch productSearch) {
-		Integer total = productSearch.getPaging().getTotal(),
-				offset = productSearch.getPaging().getOffset(),
-				limit = productSearch.getPaging().getLimit();
-
-		if ( offset < total && offset >= total - limit ) {
-			hasPagesLeft = false;
-		} else {
-			hasPagesLeft = true;
-		}
+	public boolean hasProductsLeft() {
+		return total > MAX_PRODS_PER_CALL * page + index + 1; 
 	}
 	
-	@Override
-	public Product nextProduct() throws NoItemsFoundException {
-		if ( state == AuctionState.FETCHING_DATA || state == AuctionState.API_ERROR ) {
-			return null;
-		}
-		
-		if ( this.products.size() == 0 ) {
-			throw new NoItemsFoundException(page);
-		}
-		
-		this.index++;
-
-		if ( index == this.products.size() ) {
-			if ( hasPagesLeft  ) {
-				this.page++;
-				this.fetch();
-			}
-			return null;
-		}
-		
-		return this.currentProduct();
+	public boolean isInLimitOfThePage() {
+		return index == MAX_PRODS_PER_CALL - 1;
 	}
 
 	@Override
-	public Product prevProduct() throws NoItemsFoundException{
-		if ( state == AuctionState.FETCHING_DATA || state == AuctionState.API_ERROR ) {
-			return null;
-		}
-		
-		if ( this.products.size() == 0 ) {
-			throw new NoItemsFoundException(page);
-		}
-		
-		this.index--;
+	public void nextProduct(final Callback<AuctionResponse> callback) {
+		if ( ! this.isApiCallPending ) {
+			if ( total == -1 ) {
+				this.fetch(new Callback<AuctionResponse>() {
 
-		if ( index == -1 ) {
-			if ( page != 0 ) {
-				this.page--;
-				this.fetch();
-				return null;
-			} else {
-				return this.products.get(0);
+					@Override
+					public void failure(RetrofitError arg0) {
+					}
+
+					@Override
+					public void success(AuctionResponse auctionResponse, Response arg1) {
+						if ( auctionResponse.getState() == AuctionState.API_ERROR ) {
+							callback.success(auctionResponse, null);
+							return;
+						}
+						
+						index = 0;
+						page = 0;
+						if ( auctionResponse.getState() == AuctionState.OK ) {
+							auctionResponse.setProduct(products.get(index));
+							auctionResponse.setHasPrevious(false);
+							auctionResponse.setHasNext(hasProductsLeft());
+						}
+						callback.success(auctionResponse, null);
+					}
+					
+				});
+				return;
 			}
-		}
-		
-		return this.currentProduct();
-	}
-	
-	@Override
-	public Product currentProduct() {
-		Product ans = null;
-		try{
-			ans = this.products.get(this.index);
-		} catch(ArrayIndexOutOfBoundsException e) {
-		}
 			
-		return ans;
+			if ( hasProductsLeft() && isInLimitOfThePage() ) {
+				page++;
+				this.fetch(new Callback<AuctionResponse>() {
+
+					@Override
+					public void failure(RetrofitError arg0) {
+					}
+
+					@Override
+					public void success(AuctionResponse auctionResponse, Response arg1) {
+						if ( auctionResponse.getState() == AuctionState.API_ERROR ) {
+							callback.success(auctionResponse, null);
+							return;
+						}
+						
+						index = 0;
+						auctionResponse.setHasPrevious(true);
+						auctionResponse.setHasNext(hasProductsLeft());
+						auctionResponse.setProduct(products.get(index));
+						callback.success(auctionResponse, null);
+					}	
+				});
+				return;
+			}
+			
+			index++;
+			AuctionResponse auctionResponse = new AuctionResponse(
+					AuctionState.OK, this.products.get(index), 
+					true, hasProductsLeft());
+			callback.success(auctionResponse, null);			
+		}
 	}
 
+	@Override
+	public void prevProduct(final Callback<AuctionResponse> callback) {
+		if ( ! this.isApiCallPending ) {
+			if ( total == -1 || (index == 0 && page == 0)) {
+				return;
+			}
+			
+			if ( page != 0 && index == 0 ) {
+				page--;
+				this.fetch(new Callback<AuctionResponse>() {
+
+					@Override
+					public void failure(RetrofitError arg0) {
+					}
+
+					@Override
+					public void success(AuctionResponse auctionResponse, Response arg1) {
+						if ( auctionResponse.getState() == AuctionState.API_ERROR ) {
+							callback.success(auctionResponse, null);
+							return;
+						}						
+						index = MAX_PRODS_PER_CALL - 1;
+						auctionResponse.setHasPrevious(!(index == 0 && page == 0));
+						auctionResponse.setHasNext(true);
+						auctionResponse.setProduct(products.get(index));
+						callback.success(auctionResponse, null);
+					}	
+				});
+				return;
+			}
+			
+			index--;
+			AuctionResponse auctionResponse = new AuctionResponse(
+					AuctionState.OK, this.products.get(index), 
+					!(index == 0 && page == 0), true);
+			
+			callback.success(auctionResponse, null);			
+		}
+	}
 	
 }
