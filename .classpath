@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="libs/retrofit-1.5.1.jar"/>
 	<classpathentry kind="lib" path="libs/okhttp-1.5.4.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="libs/sdk-0.0.2-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

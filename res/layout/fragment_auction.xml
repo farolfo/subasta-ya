@@ -30,5 +30,14 @@
               android:id="@+id/mainproductinfo_fragment"
               android:layout_width="match_parent"
               android:layout_height="match_parent" />
+
+     <fragment
+         android:id="@+id/offerform_fragment"
+         android:name="com.example.subastaya.OfferFormFragment"
+         android:layout_width="match_parent"
+         android:layout_height="100dp"
+         android:layout_alignParentBottom="true"
+         android:layout_alignParentLeft="true"
+         android:layout_alignParentRight="true" />
     
 </RelativeLayout>

@@ -1,6 +1,11 @@
 package com.example.subastaya;
 
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -9,12 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 public class MainActivity extends ActionBarActivity {
 
     static final String EXTRA_QUERY = "QUERY";
 	static final String EXTRA_INDEX = "INDEX";
+	static final String EXTRA_MELI_URL = "MELI_URL";
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,20 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    
+    @Override
+	public void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		
+	    Intent intent = getIntent();
+	    Uri uri = intent.getData();
+	    
+	    if ( hasCode(uri) ) {
+	    	// add message "Logging in..."
+	    	// Disable search
+	    	getToken(uri);
+	    }
+	}
 
     /**
      * A placeholder fragment containing a simple view.
@@ -67,11 +86,41 @@ public class MainActivity extends ActionBarActivity {
     
     /** Called when the user clicks the Search button */
     public void search(View view) {
-    	Intent intent = new Intent(this, AuctionActivity.class);
+    	/*Intent intent = new Intent(this, AuctionActivity.class);
     	EditText editText = (EditText) findViewById(R.id.query);
     	String query = editText.getText().toString();   	
     	intent.putExtra(EXTRA_QUERY, query);  
-    	startActivity(intent);
+    	startActivity(intent);*/
+    	
+    	RestAdapter restAdapterOAuth = new RestAdapter.Builder().setEndpoint("http://auth.mercadolibre.com").build();
+		MeliOAuth meliOAuthService = restAdapterOAuth.create(MeliOAuth.class);	
+		final MainActivity self = this; 
+		
+		meliOAuthService.authorize("code", "6684097356045737", "http://subastaya.com", new Callback<String>() {
+
+			public void processResponse(Response response) {
+				System.out.println("Got authorizd with response status: " + response.getStatus());
+				if ( response.getStatus() == 200 ) {
+					Intent intent = new Intent(self, MeliOAuthWebActivity.class);
+			    	intent.putExtra(EXTRA_MELI_URL, response.getUrl());  
+			    	startActivity(intent);
+				} else {
+					//TODO Handle oauth service not working 
+				}
+			}
+			
+			@Override
+			public void failure(RetrofitError arg0) {
+				processResponse(arg0.getResponse());
+			}
+
+			@Override
+			public void success(String arg0, Response arg1) {
+				processResponse(arg1);
+			}
+			
+		});
+    
     }
 
 }

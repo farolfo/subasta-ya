@@ -18,6 +18,7 @@ public class AuctionActivity extends ActionBarActivity {
 
 	private Auction auction;
 	private Product product;
+	private User user;
 	
 	private MainProductInfoFragment mainProductInfo;
 	private Boolean canGoPrev = false; // checks if the user is able to go click on prev button
@@ -27,7 +28,7 @@ public class AuctionActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auction);
-		
+		getIntent();
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -87,6 +88,13 @@ public class AuctionActivity extends ActionBarActivity {
 		getMenuInflater().inflate(R.menu.auction, menu);
 		return true;
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode,
+            Intent data) {
+		Intent i = getIntent();
+        System.out.println("");
+    }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

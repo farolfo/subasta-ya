@@ -23,13 +23,17 @@ public class AuctionImpl implements Auction {
 	boolean isApiCallPending = false;
 	
 	MercadoLibreAPI mercadoLibreService;
+	MeliOAuth meliOAuthService;
 	String query;
-	
+		
 	AuctionImpl(final String query) {
 		this.query = query;
 		
 		RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint("https://api.mercadolibre.com").build();
 		this.mercadoLibreService = restAdapter.create(MercadoLibreAPI.class);
+		
+		RestAdapter restAdapterOAuth = new RestAdapter.Builder().setEndpoint("http://auth.mercadolibre.com").build();
+		this.meliOAuthService = restAdapterOAuth.create(MeliOAuth.class);	
 	}
 	
 	public void fetch(final Callback<AuctionResponse> callback) {
@@ -53,7 +57,7 @@ public class AuctionImpl implements Auction {
 							for (Result result : productSearch.getResults()) {
 								products.add( new ProductImpl(result.getTitle()) );
 							}	
-							
+
 							if ( products.isEmpty() ) {
 								state = AuctionState.EMPTY_RESULTS; 
 							} else {
