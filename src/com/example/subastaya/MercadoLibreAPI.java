@@ -2,14 +2,23 @@ package com.example.subastaya;
 
 import retrofit.Callback;
 import retrofit.http.GET;
-import retrofit.http.Headers;
+import retrofit.http.Header;
+import retrofit.http.POST;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 import com.example.subastaya.apimodels.ProductSearch;
+import com.example.subastaya.apimodels.TokenAuthorization;
+import com.example.subastaya.apimodels.User;
 
 public interface MercadoLibreAPI {
-	@Headers("Authorization: OAuth uk3qZb6iSmSEd75paPiYVCYsD8mHbFPD")
-		
+	
+	@GET("/users/{id}")
+	void getUser(@Path("id") Long id, @Header("Authorization") String token, Callback<User> callback);
+	
+	@POST("/oauth/token?grant_type=authorization_code&client_id=6684097356045737&client_secret=uk3qZb6iSmSEd75paPiYVCYsD8mHbFPD")
+	void getToken(@Query("code") String code, @Query("redirect_uri") String redirectUri, @Header("Authorization") String token, Callback<TokenAuthorization> callback);
+	
 	@GET("/sites/MLA/search?buying_mode=auction")
-	void searchByQuery(@Query("q") String query, @Query("limit") Integer limit, @Query("offset") Integer offset, Callback<ProductSearch> callback);
+	void searchByQuery(@Query("q") String query, @Query("limit") Integer limit, @Query("offset") Integer offset, @Header("Authorization") String token, Callback<ProductSearch> callback);
 }

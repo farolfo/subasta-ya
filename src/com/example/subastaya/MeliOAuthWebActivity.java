@@ -49,7 +49,7 @@ public class MeliOAuthWebActivity extends Activity {
 		super.onPostCreate(savedInstanceState);
 		
 	    Intent intent = getIntent();
-	    String meliUrl = intent.getStringExtra(MainActivity.EXTRA_MELI_URL);
+	    String meliUrl = intent.getStringExtra(OfferFormFragment.EXTRA_MELI_URL);
 	    
 		WebView myWebView = (WebView) findViewById(R.id.webview);
 		myWebView.loadUrl(meliUrl);

@@ -39,7 +39,7 @@ public class AuctionImpl implements Auction {
 	public void fetch(final Callback<AuctionResponse> callback) {
 		if ( ! this.isApiCallPending ) {
 			this.isApiCallPending = true;
-			this.mercadoLibreService.searchByQuery(this.query, MAX_PRODS_PER_CALL, page * MAX_PRODS_PER_CALL, 
+			this.mercadoLibreService.searchByQuery(this.query, MAX_PRODS_PER_CALL, page * MAX_PRODS_PER_CALL, "OAuth " + MainActivity.APP_TOKEN,
 					new Callback<ProductSearch> () {
 				
 						@Override

@@ -14,17 +14,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.example.subastaya.apimodels.TokenAuthorization;
+import com.example.subastaya.apimodels.User;
 
 public class MainActivity extends ActionBarActivity {
 
     static final String EXTRA_QUERY = "QUERY";
 	static final String EXTRA_INDEX = "INDEX";
-	static final String EXTRA_MELI_URL = "MELI_URL";
+	static final String APP_TOKEN = "uk3qZb6iSmSEd75paPiYVCYsD8mHbFPD";
+	
+	MercadoLibreAPI mercadoLibreService;
+	
+	AuthUser user;
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint("https://api.mercadolibre.com").build();
+        this.mercadoLibreService = restAdapter.create(MercadoLibreAPI.class);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -54,21 +65,88 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     
+    public boolean hasCode(Uri uri) {
+    	String code;
+    	if ( uri != null ) {
+    		code = uri.getQueryParameter("code");
+    		return code != null;
+    	} 
+    	return false;
+    }
+    
+    public Long getClienIdFromToken(String token) {
+    	String[] splitted = token.split("_");
+    	String id = splitted[splitted.length - 1];
+    	id = id.substring(1, id.length());
+    	return Long.parseLong(id, 10);
+    }
+    
     @Override
-	public void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		
-	    Intent intent = getIntent();
+    protected void onResume() {
+    	super.onResume();
+    	
+    	// Show loading
+    	// Disable search
+		Intent intent = getIntent();
 	    Uri uri = intent.getData();
 	    
 	    if ( hasCode(uri) ) {
-	    	// add message "Logging in..."
-	    	// Disable search
-	    	getToken(uri);
-	    }
+	    	// Add message "Logging in..."
+	    	getToken(uri, new Callback<String>() {
+
+				@Override
+				public void failure(RetrofitError arg0) {					
+				}
+
+				@Override
+				public void success(final String token, Response arg1) {
+					mercadoLibreService.getUser(getClienIdFromToken(token), "OAuth " + token, new Callback<User>() {
+
+						@Override
+						public void failure(RetrofitError arg0) {
+							System.out.println("");
+							//TODO HANDLE OAUTH ERROR
+						}
+
+						@Override
+						public void success(User arg0, Response arg1) {
+							user = new AuthUser(token, arg0.getNickname());
+							System.out.println("Logged in succesfully with " + user.getNickname() + ", token " + user.getToken());
+							// Add logged in text
+							// hide loading
+							// enable search
+						}
+						
+					});
+					
+				}
+	    		
+	    	});
+	    } else {
+	    	//hide loading
+			//enable search
+	    }   
+    }
+
+    private void getToken(Uri uri, final Callback<String> callback) {
+    	mercadoLibreService.getToken(uri.getQueryParameter("code"), "http://subastaya.com", "OAuth " + APP_TOKEN,new Callback<TokenAuthorization>() {
+			
+			@Override
+			public void failure(RetrofitError arg0) {
+				System.out.println("failed oauth");
+				//TODO Handle oauth service not working 
+			}
+
+			@Override
+			public void success(TokenAuthorization arg0, Response arg1) {
+				callback.success(arg0.getAccess_token(), null);
+			}
+			
+		});
+		
 	}
 
-    /**
+	/**
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
@@ -86,41 +164,11 @@ public class MainActivity extends ActionBarActivity {
     
     /** Called when the user clicks the Search button */
     public void search(View view) {
-    	/*Intent intent = new Intent(this, AuctionActivity.class);
+    	Intent intent = new Intent(this, AuctionActivity.class);
     	EditText editText = (EditText) findViewById(R.id.query);
     	String query = editText.getText().toString();   	
     	intent.putExtra(EXTRA_QUERY, query);  
-    	startActivity(intent);*/
-    	
-    	RestAdapter restAdapterOAuth = new RestAdapter.Builder().setEndpoint("http://auth.mercadolibre.com").build();
-		MeliOAuth meliOAuthService = restAdapterOAuth.create(MeliOAuth.class);	
-		final MainActivity self = this; 
-		
-		meliOAuthService.authorize("code", "6684097356045737", "http://subastaya.com", new Callback<String>() {
-
-			public void processResponse(Response response) {
-				System.out.println("Got authorizd with response status: " + response.getStatus());
-				if ( response.getStatus() == 200 ) {
-					Intent intent = new Intent(self, MeliOAuthWebActivity.class);
-			    	intent.putExtra(EXTRA_MELI_URL, response.getUrl());  
-			    	startActivity(intent);
-				} else {
-					//TODO Handle oauth service not working 
-				}
-			}
-			
-			@Override
-			public void failure(RetrofitError arg0) {
-				processResponse(arg0.getResponse());
-			}
-
-			@Override
-			public void success(String arg0, Response arg1) {
-				processResponse(arg1);
-			}
-			
-		});
-    
+    	startActivity(intent);
     }
 
 }

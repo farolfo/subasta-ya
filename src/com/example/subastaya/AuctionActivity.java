@@ -18,9 +18,10 @@ public class AuctionActivity extends ActionBarActivity {
 
 	private Auction auction;
 	private Product product;
-	private User user;
 	
 	private MainProductInfoFragment mainProductInfo;
+	private OfferFormFragment offerForm;
+	
 	private Boolean canGoPrev = false; // checks if the user is able to go click on prev button
 	private Boolean canGoNext = false; // checks if the user is able to go click on prev button
 	
@@ -44,6 +45,7 @@ public class AuctionActivity extends ActionBarActivity {
 	    Intent intent = getIntent();
 	    String query = intent.getStringExtra(MainActivity.EXTRA_QUERY);
 	    
+		this.offerForm = (OfferFormFragment) getSupportFragmentManager().findFragmentById(R.id.offerform_fragment);
 	    this.mainProductInfo = (MainProductInfoFragment) getSupportFragmentManager().findFragmentById(R.id.mainproductinfo_fragment);
 	    
 	    this.auction = new AuctionImpl(query);
@@ -88,13 +90,6 @@ public class AuctionActivity extends ActionBarActivity {
 		getMenuInflater().inflate(R.menu.auction, menu);
 		return true;
 	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode,
-            Intent data) {
-		Intent i = getIntent();
-        System.out.println("");
-    }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -177,5 +172,9 @@ public class AuctionActivity extends ActionBarActivity {
 				}
 			});
 		}
+	}
+	
+	public void offer(View view) {
+		this.offerForm.offer(view);
 	}
 }
