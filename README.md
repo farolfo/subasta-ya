@@ -11,6 +11,35 @@ La intencion de esta aplicacion es fomentar el uso de subastas en los servicios 
 
 Un punto importante de esta aplicacion es que debe ser SIMPLE. Ver productos y ofertar o pasar al proximo. Debe ser usable para cualquiera, eliminando las incertidumbres que el usuario pueda tener sobre las subastas en MercadoLibre, y asi, fometando su uso.
 
+Desarrollo
+
+Para el testeo de la aplicacion en un flujo completo, desde la busqueda hasta la compra,
+utilizamos los usuarios de testeo que nos provee MercadoLibre en la API:
+
+    http://developers.mercadopago.com/documentation/create-test-users
+
+Siendo estos:
+
+* Vendedor de entradas de los Beatles:
+
+    {
+        "id": 159620282,
+        "nickname": "TETE8404306",
+        "password": "qatest2672",
+        "site_status": "active",
+        "email": "test_user_95217195@testuser.com"
+    }
+
+* Comprador:
+
+    {
+        "id": 159622242,
+        "nickname": "TETE1177057",
+        "password": "qatest3944",
+        "site_status": "active",
+        "email": "test_user_14674777@testuser.com"
+    }
+
 ###En la proxima version
 
 * Opcion de seguir la subasta en las que estas involucrado

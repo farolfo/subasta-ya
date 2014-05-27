@@ -6,5 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_auction">AuctionActivity</string>
     <string name="title_activity_meli_oauth_web">MeliOAuthWebActivity</string>
+    <string name="select_payment_method">Metodo de pago</string>
+    <string name="fetching_payment_methods">Obteniendo metodos de pago</string>
 
 </resources>

@@ -8,13 +8,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.subastaya.apimodels.TokenAuthorization;
 import com.example.subastaya.apimodels.User;
@@ -24,10 +27,17 @@ public class MainActivity extends ActionBarActivity {
     static final String EXTRA_QUERY = "QUERY";
 	static final String EXTRA_INDEX = "INDEX";
 	static final String APP_TOKEN = "uk3qZb6iSmSEd75paPiYVCYsD8mHbFPD";
+	static final String EXTRA_USER = "USER";
 	
 	MercadoLibreAPI mercadoLibreService;
+	AuthUser user = null;
 	
-	AuthUser user;
+	LoadingFragment loadingFragment;
+	
+	private boolean searchEnabled = false;
+	private EditText queryEditText;
+	private Button searchButton;
+	private TextView loggedInMessage;
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,17 +91,60 @@ public class MainActivity extends ActionBarActivity {
     	return Long.parseLong(id, 10);
     }
     
+    public void showLoggedInLabel() {
+    	this.loggedInMessage.setText("Usuario " + user.getNickname() + " loggeado");
+    	this.loggedInMessage.setVisibility(View.VISIBLE);
+    }
+    
+    public void hideActions() {
+    	this.queryEditText.setVisibility(View.GONE);
+    	this.searchButton.setVisibility(View.GONE);
+    }
+    
+    public void showActions() {
+    	this.queryEditText.setVisibility(View.VISIBLE);
+    	this.searchButton.setVisibility(View.VISIBLE);
+    }
+    
+    public void disableActions() {
+    	this.searchEnabled = false;
+    }
+    
+    public void enableActions() {
+    	this.searchEnabled = true;
+    }
+    
+    public void showLoading() {
+    	FragmentManager fm = getSupportFragmentManager();    	
+    	fm.beginTransaction()
+    	          .show(loadingFragment)
+    	          .commit();
+    }
+    
+    public void hideLoading() {
+    	FragmentManager fm = getSupportFragmentManager();    	
+    	fm.beginTransaction()
+    	          .hide(loadingFragment)
+    	          .commit();
+    }
+    
     @Override
     protected void onResume() {
     	super.onResume();
     	
-    	// Show loading
-    	// Disable search
+    	if ( user != null ) {
+    		return;
+    	}
+    	
+    	hideActions();
+    	disableActions();
+    	showLoading();
+    	
 		Intent intent = getIntent();
 	    Uri uri = intent.getData();
 	    
 	    if ( hasCode(uri) ) {
-	    	// Add message "Logging in..."
+	    	loadingFragment.showMessageLoggingIn();
 	    	getToken(uri, new Callback<String>() {
 
 				@Override
@@ -112,9 +165,10 @@ public class MainActivity extends ActionBarActivity {
 						public void success(User arg0, Response arg1) {
 							user = new AuthUser(token, arg0.getNickname());
 							System.out.println("Logged in succesfully with " + user.getNickname() + ", token " + user.getToken());
-							// Add logged in text
-							// hide loading
-							// enable search
+							showLoggedInLabel();
+							hideLoading();
+							showActions();
+							enableActions();
 						}
 						
 					});
@@ -123,8 +177,9 @@ public class MainActivity extends ActionBarActivity {
 	    		
 	    	});
 	    } else {
-	    	//hide loading
-			//enable search
+	    	hideLoading();
+			showActions();
+			enableActions();
 	    }   
     }
 
@@ -141,7 +196,7 @@ public class MainActivity extends ActionBarActivity {
 			public void success(TokenAuthorization arg0, Response arg1) {
 				callback.success(arg0.getAccess_token(), null);
 			}
-			
+			//TODO DELETEME APP_USR-6684097356045737-052621-2070e51da0c155d8d7dd87947658da0f__B_H__-159535818
 		});
 		
 	}
@@ -162,13 +217,27 @@ public class MainActivity extends ActionBarActivity {
         }
     }
     
+    @Override
+    public void onPostCreate(Bundle bundle) {
+    	super.onPostCreate(bundle);
+    	
+    	this.loadingFragment = (LoadingFragment) getSupportFragmentManager().findFragmentById(R.id.loading_fragment);    
+    	this.queryEditText = (EditText) findViewById(R.id.query);
+    	this.searchButton = (Button) findViewById(R.id.search);
+    	this.loggedInMessage = (TextView) findViewById(R.id.loggedIn);
+    }
+    
     /** Called when the user clicks the Search button */
     public void search(View view) {
-    	Intent intent = new Intent(this, AuctionActivity.class);
-    	EditText editText = (EditText) findViewById(R.id.query);
-    	String query = editText.getText().toString();   	
-    	intent.putExtra(EXTRA_QUERY, query);  
-    	startActivity(intent);
+    	if ( searchEnabled ) {
+	    	Intent intent = new Intent(this, AuctionActivity.class);
+	    	String query = this.queryEditText.getText().toString(); 
+	    	if ( query.length() != 0  ) {
+		    	intent.putExtra(EXTRA_QUERY, query);  
+		    	intent.putExtra(EXTRA_USER, user);  
+		    	startActivity(intent);
+	    	}
+    	}
     }
 
 }

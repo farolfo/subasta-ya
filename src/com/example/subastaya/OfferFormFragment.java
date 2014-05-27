@@ -6,6 +6,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 public class OfferFormFragment extends Fragment {
 
 	public static final String EXTRA_MELI_URL = "MELI_URL";
+	public static final String EXTRA_USER_TOKEN = "USER_TOKEN";
 
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,8 +53,18 @@ public class OfferFormFragment extends Fragment {
 		});
 	}
     
-    public void offer(View view) {
-    	login();
+    public void offer(View view, AuthUser user) {
+    	if ( user == null ) {
+    		login();
+    		return;
+    	}
+    	DialogFragment paymentDialog = new PaymentDialogFragment();
+    	
+    	Bundle args = new Bundle();
+        args.putString(EXTRA_USER_TOKEN, user.getToken());
+        paymentDialog.setArguments(args);
+        
+        paymentDialog.show(getActivity().getSupportFragmentManager(), "payments");    	
     }
 
 }

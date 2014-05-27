@@ -37,9 +37,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:text="subastas en MercadoLibre" />
+    
+    <fragment android:name="com.example.subastaya.LoadingFragment"
+              android:id="@+id/loading_fragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" />
 
     <EditText
         android:id="@+id/query"
+        android:hint="MacPro Retina, iPod..."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView3"
@@ -51,7 +57,7 @@
     </EditText>
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/query"
@@ -59,5 +65,16 @@
         android:layout_marginTop="38dp"
         android:onClick="search"
         android:text="Buscar" />
+
+    <TextView
+        android:id="@+id/loggedIn"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:text="Usuario logeado"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

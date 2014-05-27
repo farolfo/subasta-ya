@@ -22,6 +22,8 @@ public class AuctionActivity extends ActionBarActivity {
 	private MainProductInfoFragment mainProductInfo;
 	private OfferFormFragment offerForm;
 	
+	private AuthUser user = null;
+	
 	private Boolean canGoPrev = false; // checks if the user is able to go click on prev button
 	private Boolean canGoNext = false; // checks if the user is able to go click on prev button
 	
@@ -44,6 +46,7 @@ public class AuctionActivity extends ActionBarActivity {
 		// Get the message from the intent
 	    Intent intent = getIntent();
 	    String query = intent.getStringExtra(MainActivity.EXTRA_QUERY);
+	    this.user = (AuthUser) intent.getSerializableExtra(MainActivity.EXTRA_USER);
 	    
 		this.offerForm = (OfferFormFragment) getSupportFragmentManager().findFragmentById(R.id.offerform_fragment);
 	    this.mainProductInfo = (MainProductInfoFragment) getSupportFragmentManager().findFragmentById(R.id.mainproductinfo_fragment);
@@ -175,6 +178,6 @@ public class AuctionActivity extends ActionBarActivity {
 	}
 	
 	public void offer(View view) {
-		this.offerForm.offer(view);
+		this.offerForm.offer(view, user);
 	}
 }
