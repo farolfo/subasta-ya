@@ -6,13 +6,13 @@ import retrofit.client.Response;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 public class AuctionActivity extends ActionBarActivity {
 
@@ -32,6 +32,10 @@ public class AuctionActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auction);
 		getIntent();
+		
+		ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();

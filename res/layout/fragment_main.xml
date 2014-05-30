@@ -8,32 +8,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.subastaya.MainActivity$PlaceholderFragment" >
 
-    <TextView
-        android:id="@+id/textView1"
+    <fragment
+        android:id="@+id/title_fragment"
+        android:name="com.example.subastaya.TitleFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="90dp"
-        android:layout_marginTop="72dp"
-        android:text="subasta"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
+    
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/subTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_toRightOf="@+id/textView1"
-        android:text="Ya"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@id/title_fragment"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:text="subastas en MercadoLibre" />
@@ -48,7 +35,7 @@
         android:hint="MacPro Retina, iPod..."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView3"
+        android:layout_below="@+id/subTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="89dp"
         android:ems="10" >
@@ -58,7 +45,7 @@
 
     <Button
         android:id="@+id/search"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/query"
         android:layout_centerHorizontal="true"

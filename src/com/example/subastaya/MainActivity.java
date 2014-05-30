@@ -5,10 +5,12 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,11 +40,16 @@ public class MainActivity extends ActionBarActivity {
 	private EditText queryEditText;
 	private Button searchButton;
 	private TextView loggedInMessage;
+	
+	Typeface typeFace;
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         
         RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint("https://api.mercadolibre.com").build();
         this.mercadoLibreService = restAdapter.create(MercadoLibreAPI.class);
@@ -221,10 +228,28 @@ public class MainActivity extends ActionBarActivity {
     public void onPostCreate(Bundle bundle) {
     	super.onPostCreate(bundle);
     	
+    	typeFace = Typeface.createFromAsset(getAssets(),"fonts/Roboto-Light.ttf");
+    	
     	this.loadingFragment = (LoadingFragment) getSupportFragmentManager().findFragmentById(R.id.loading_fragment);    
     	this.queryEditText = (EditText) findViewById(R.id.query);
     	this.searchButton = (Button) findViewById(R.id.search);
     	this.loggedInMessage = (TextView) findViewById(R.id.loggedIn);
+    	
+    	TextView subastaTitle = (TextView) findViewById(R.id.subastaTitle);
+    	TextView yaTitle = (TextView) findViewById(R.id.yaTitle);
+    	TextView subTitle = (TextView) findViewById(R.id.subTitle);
+    	
+    	formatFonts(this.loggedInMessage);
+    	formatFonts(subastaTitle);
+    	formatFonts(yaTitle);
+    	formatFonts(subTitle);
+    	formatFonts(this.searchButton);
+    	formatFonts(this.queryEditText);
+
+    }
+    
+    public void formatFonts(TextView view) {
+    	view.setTypeface(this.typeFace);
     }
     
     /** Called when the user clicks the Search button */

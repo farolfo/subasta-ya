@@ -2,4 +2,7 @@
 
     <color name="window_background">#f6f6f6</color>
  	<color name="bottom_form_color">#bdbdbd</color>
+ 	<color name="light_blue">#33b5e5</color>
+ 	<color name="pink">#ff96ca</color>
+ 	
 </resources>
