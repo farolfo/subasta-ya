@@ -182,6 +182,6 @@ public class AuctionActivity extends ActionBarActivity {
 	}
 	
 	public void offer(View view) {
-		this.offerForm.offer(view, user);
+		this.offerForm.offer(view, user, product);
 	}
 }

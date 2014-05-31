@@ -1,7 +1,10 @@
 package com.example.subastaya;
 
-public interface Product {
+import java.io.Serializable;
+
+public interface Product extends Serializable{
 
 	public boolean offer(double price);
-	public String getName();
+	public String getTitle();
+	public Double getPrice();
 }

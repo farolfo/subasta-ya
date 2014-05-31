@@ -7,6 +7,9 @@
     <string name="title_activity_auction">AuctionActivity</string>
     <string name="title_activity_meli_oauth_web">MeliOAuthWebActivity</string>
     <string name="select_payment_method">Metodo de pago</string>
-    <string name="fetching_payment_methods">Obteniendo metodos de pago</string>
+    <string name="confirm_payment_title">Confirmar la oferta</string>
+    <string name="confirm_payment_text">Esta oferta se realizara por MercadoPago\u00A9</string>
+    <string name="confirm_offer">Confirmar oferta</string>
+    <string name="cancel">Cancelar</string>
 
 </resources>

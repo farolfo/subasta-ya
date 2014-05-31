@@ -55,7 +55,7 @@ public class AuctionImpl implements Auction {
 							AuctionState state;
 							
 							for (Result result : productSearch.getResults()) {
-								products.add( new ProductImpl(result.getTitle()) );
+								products.add( new ProductImpl(result.getTitle(), result.getPrice()) );
 							}	
 
 							if ( products.isEmpty() ) {

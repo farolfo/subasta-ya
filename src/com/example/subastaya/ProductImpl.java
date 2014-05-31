@@ -2,14 +2,27 @@ package com.example.subastaya;
 
 public class ProductImpl implements Product {
 
-	String name;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	ProductImpl(String name) {
-		this.name = name;
+	String title;
+	Double price;
+	
+	ProductImpl(String title, Double price) {
+		this.title = title;
+		this.price = price;
 	}
 	
-	public String getName() {
-		return this.name;
+	@Override
+	public String getTitle() {
+		return this.title;
+	}
+	
+	@Override
+	public Double getPrice() {
+		return price;
 	}
 	
 	@Override

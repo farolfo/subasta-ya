@@ -34,7 +34,7 @@ public class MainProductInfoFragment extends Fragment {
     public void setContent(Product product) {
     	initProductTitle();
     	if ( product != null ) {
-    		this.productTitle.setText(product.getName());
+    		this.productTitle.setText(product.getTitle());
     	} else {
     		this.setLoading();
     	}

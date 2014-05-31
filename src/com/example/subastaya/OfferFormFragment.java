@@ -16,6 +16,7 @@ public class OfferFormFragment extends Fragment {
 
 	public static final String EXTRA_MELI_URL = "MELI_URL";
 	public static final String EXTRA_USER_TOKEN = "USER_TOKEN";
+	public static final String SELECTED_PRODUCT = "SELECTED_PRODUCT";
 
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +54,7 @@ public class OfferFormFragment extends Fragment {
 		});
 	}
     
-    public void offer(View view, AuthUser user) {
+    public void offer(View view, AuthUser user, Product product) {
     	if ( user == null ) {
     		login();
     		return;
@@ -61,7 +62,9 @@ public class OfferFormFragment extends Fragment {
     	DialogFragment paymentDialog = new PaymentDialogFragment();
     	
     	Bundle args = new Bundle();
+    	
         args.putString(EXTRA_USER_TOKEN, user.getToken());
+        args.putSerializable(SELECTED_PRODUCT, product);
         paymentDialog.setArguments(args);
         
         paymentDialog.show(getActivity().getSupportFragmentManager(), "payments");    	
