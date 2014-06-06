@@ -7,29 +7,13 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.subastaya.AuctionActivity$PlaceholderFragment" >
-
-    <ImageView
-        android:id="@+id/nextArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:onClick="nextProduct"
-        android:layout_centerVertical="true"
-        android:src="@drawable/abc_ic_go" />
-
-    <ImageView
-        android:id="@+id/prevArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:onClick="prevProduct"
-        android:src="@drawable/abc_ic_ab_back_holo_light" />
     
-     <fragment android:name="com.example.subastaya.MainProductInfoFragment"
-              android:id="@+id/mainproductinfo_fragment"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent" />
+     <fragment
+         android:id="@+id/mainproductinfo_fragment"
+         android:name="com.example.subastaya.MainProductInfoFragment"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_above="@+id/offerform_fragment" />
 
      <fragment
          android:id="@+id/offerform_fragment"
@@ -39,5 +23,25 @@
          android:layout_alignParentBottom="true"
          android:layout_alignParentLeft="true"
          android:layout_alignParentRight="true" />
+
+     <ImageView
+         android:id="@+id/nextArrow"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignRight="@+id/offerform_fragment"
+        android:layout_marginBottom="35dp"
+        android:layout_alignParentBottom="true"
+         android:onClick="nextProduct"
+         android:src="@drawable/right_arrow" />
+
+     <ImageView
+         android:id="@+id/prevArrow"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignLeft="@+id/offerform_fragment"
+        android:layout_marginBottom="35dp"
+        android:layout_alignParentBottom="true"
+         android:onClick="prevProduct"
+         android:src="@drawable/left_arrow" />
     
 </RelativeLayout>

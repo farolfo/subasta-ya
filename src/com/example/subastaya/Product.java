@@ -7,4 +7,7 @@ public interface Product extends Serializable{
 	public boolean offer(double price);
 	public String getTitle();
 	public Double getPrice();
+	//public EndDate getEndDate();
+	//public String getDescription();
+	//public 
 }

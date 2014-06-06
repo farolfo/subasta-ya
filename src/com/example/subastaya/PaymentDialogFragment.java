@@ -13,6 +13,7 @@ import android.support.v4.app.DialogFragment;
 import com.example.subastaya.apimodels.CheckoutItems;
 import com.example.subastaya.apimodels.CheckoutResponse;
 import com.example.subastaya.apimodels.InnerCheckoutItem;
+import com.example.subastaya.apimodels.OrderResponse;
 
 public class PaymentDialogFragment extends DialogFragment {
 	
@@ -34,7 +35,7 @@ public class PaymentDialogFragment extends DialogFragment {
 		CheckoutItems req = new CheckoutItems();
 		req.getItems().add(item);
 		
-		mercadoLibreService.checkout(req, token, new Callback<CheckoutResponse>() {
+		mercadoLibreService.createOrder(new OrderItems(), token, new Callback<OrderResponse>() {
 
 			@Override
 			public void failure(RetrofitError arg0) {
@@ -42,7 +43,7 @@ public class PaymentDialogFragment extends DialogFragment {
 			}
 
 			@Override
-			public void success(CheckoutResponse arg0, Response arg1) {
+			public void success(OrderResponse arg0, Response arg1) {
 				System.out.println("Checkout succeded");							
 			}
 			
