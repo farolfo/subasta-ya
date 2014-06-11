@@ -11,7 +11,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="35dp"
+        android:background="@color/green_button"
         android:onClick="offer"
-        android:text="Ofertar" />
+        android:text="Ofertar"
+        android:textColor="@android:color/background_light" />
     
 </RelativeLayout>

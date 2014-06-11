@@ -9,5 +9,8 @@
 	<classpathentry kind="lib" path="libs/okhttp-1.5.4.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.2.4.jar"/>
 	<classpathentry kind="lib" path="libs/sdk-0.0.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="libs/joda-time-2.3-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/joda-time-2.3-sources.jar"/>
+	<classpathentry kind="lib" path="libs/joda-time-2.3.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

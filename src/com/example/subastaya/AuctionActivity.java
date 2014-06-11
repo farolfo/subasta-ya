@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 public class AuctionActivity extends ActionBarActivity {
 
@@ -23,6 +24,9 @@ public class AuctionActivity extends ActionBarActivity {
 	private OfferFormFragment offerForm;
 	
 	private AuthUser user = null;
+	
+	private ImageView prev;
+	private ImageView next;
 	
 	private Boolean canGoPrev = false; // checks if the user is able to go click on prev button
 	private Boolean canGoNext = false; // checks if the user is able to go click on prev button
@@ -55,9 +59,13 @@ public class AuctionActivity extends ActionBarActivity {
 		this.offerForm = (OfferFormFragment) getSupportFragmentManager().findFragmentById(R.id.offerform_fragment);
 	    this.mainProductInfo = (MainProductInfoFragment) getSupportFragmentManager().findFragmentById(R.id.mainproductinfo_fragment);
 	    
+    	this.prev = (ImageView) findViewById(R.id.prevArrow);
+    	this.next = (ImageView) findViewById(R.id.nextArrow);
+
 	    this.auction = new AuctionImpl(query);
 	    
 	    mainProductInfo.setLoading();
+	    disableActions();
 	    
 	    this.auction.nextProduct(new Callback<AuctionResponse>() {
 			    @Override
@@ -76,7 +84,7 @@ public class AuctionActivity extends ActionBarActivity {
 			    	
 			    	canGoNext = auctionResponse.hasNext();
 			    	canGoPrev = auctionResponse.hasPrevious();
-			    	//updateActionEnableing();
+			    	updateActionEnableing();
 				}
 
 				@Override
@@ -85,6 +93,25 @@ public class AuctionActivity extends ActionBarActivity {
 	    });
 	    	   
 	}
+	
+	public void disableActions() {
+	    this.next.setVisibility(View.GONE);
+	    this.prev.setVisibility(View.GONE);
+	}
+	
+	public void updateActionEnableing() {
+		if ( canGoNext ) {
+	    	this.next.setVisibility(View.VISIBLE);
+		} else {
+	    	this.next.setVisibility(View.GONE);
+		}
+		
+		if ( canGoPrev ) {
+	    	this.prev.setVisibility(View.VISIBLE);
+		} else {
+	    	this.prev.setVisibility(View.GONE);
+		}	
+	}
 		
 	public void displayCurrentProduct() {
 		this.mainProductInfo.setContent(this.product);
@@ -92,8 +119,6 @@ public class AuctionActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.auction, menu);
 		return true;
 	}
@@ -132,7 +157,8 @@ public class AuctionActivity extends ActionBarActivity {
 			this.canGoNext = false;
 			this.canGoPrev = false;
 		    mainProductInfo.setLoading();
-
+		    disableActions();
+		    
 			this.auction.nextProduct(new Callback<AuctionResponse>() {
 			    @Override
 				public void success(AuctionResponse auctionResponse, Response arg1) {
@@ -144,7 +170,7 @@ public class AuctionActivity extends ActionBarActivity {
 			    	displayCurrentProduct();
 			    	canGoNext = auctionResponse.hasNext();
 			    	canGoPrev = auctionResponse.hasPrevious();
-			    	//updateActionEnableing();
+			    	updateActionEnableing();
 				}
 	
 				@Override
@@ -159,7 +185,8 @@ public class AuctionActivity extends ActionBarActivity {
 			this.canGoNext = false;
 			this.canGoPrev = false;
 		    mainProductInfo.setLoading();
-
+		    disableActions();
+		    
 			this.auction.prevProduct(new Callback<AuctionResponse>() {
 			    @Override
 				public void success(AuctionResponse auctionResponse, Response arg1) {
@@ -171,7 +198,7 @@ public class AuctionActivity extends ActionBarActivity {
 			    	displayCurrentProduct();
 			    	canGoNext = auctionResponse.hasNext();
 			    	canGoPrev = auctionResponse.hasPrevious();
-			    	//updateActionEnableing();
+			    	updateActionEnableing();
 				}
 	
 				@Override

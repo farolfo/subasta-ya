@@ -10,6 +10,7 @@ import retrofit.http.Query;
 
 import com.example.subastaya.apimodels.CheckoutItems;
 import com.example.subastaya.apimodels.CheckoutResponse;
+import com.example.subastaya.apimodels.ItemResponse;
 import com.example.subastaya.apimodels.OrderResponse;
 import com.example.subastaya.apimodels.ProductSearch;
 import com.example.subastaya.apimodels.TokenAuthorization;
@@ -29,14 +30,8 @@ public interface MercadoLibreAPI {
 	@POST("/checkout/preferences")
 	void checkout(@Body CheckoutItems items, @Query("access_token") String token, Callback<CheckoutResponse> cb);
 	
-	/*@GET("/items/{item_id}")
-	void getItem(@Path("item_id") String itemId, Callback<ItemResponse> item);
-	
-	@GET("/items/{id}/description")
-	void getDescription(@Path("id") String id, Callback<ItemDescriptionResponse> cb);
-	
-	@GET("/items/{id}/pictures")
-	void getPictures(@Path("id") String id, Callback<PicturesResponse> cb);*/
+	@GET("/items/{id}")
+	void getItem(@Path("id") String id, Callback<ItemResponse> cb);
 	
 	@POST("/orders")
 	void createOrder(@Body OrderItems items, @Query("access_token") String token, Callback<OrderResponse> cb);
