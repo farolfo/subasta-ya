@@ -8,8 +8,7 @@ Mobile app desarrollada para el Desafio Mobile 2014 de MercadoLibre.com.
 La idea es simple: **una aplicacion mobile para participar en subastas on line desde cualquier lugar donde estes**. 
 Asi como en [tinder](http://www.gotinder.com/) se postulan personas y uno decide si dar NEXT u OK, en _subasta Ya_ se listan los productos que vos buscas y se estan subastando en ese momento, con la opcion de dar NEXT, PREV u OFERTAR. **Simple**.
 
-![home view image](/screenshots/home_view.png "Vista de home")
-![product view image](/screenshots/product_view.png "Vista de un producto")
+![screenshots](/screenshots/screens.png "screenshots")
 
 La intencion de esta aplicacion es fomentar el uso de subastas en los servicios de venta online, en este caso MercadoLibre. Esatmos en una epoca donde las subastas se ven en la television en muchos programas y shows (el ejemplo mas famoso es ["El Precio de la Historia"](http://ar.tuhistory.com/programas/el-precio-de-la-historia.html) de History Channel), es el momento ideal para una app que se basa en subastar lo que queres donde quiera que estes.
 
