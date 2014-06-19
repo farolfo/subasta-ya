@@ -9,9 +9,11 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 
 import com.example.subastaya.apimodels.CheckoutItems;
-import com.example.subastaya.apimodels.CheckoutResponse;
 import com.example.subastaya.apimodels.InnerCheckoutItem;
 import com.example.subastaya.apimodels.OrderResponse;
 
@@ -56,17 +58,24 @@ public class PaymentDialogFragment extends DialogFragment {
     	
         token = getArguments().getString(OfferFormFragment.EXTRA_USER_TOKEN);
         product = (Product) getArguments().getSerializable(OfferFormFragment.SELECTED_PRODUCT);
+        System.out.println("token is !!! " + token);
+        
+        LayoutInflater factory = LayoutInflater.from(this.getActivity());
+        final View textEntryView = factory.inflate(R.layout.confirm_payment_dialog, null);   	
             	
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.confirm_payment_title);
-        builder.setMessage(R.string.confirm_payment_text)
-        	.setPositiveButton(R.string.confirm_offer, new DialogInterface.OnClickListener() {
-        		public void onClick(DialogInterface dialog, int id) {
-        			System.out.println("confirmada la compra");
-                	checkoutOrder();
-            	}
-        	})
-        	.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+        
+        builder.setView(textEntryView);
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {  
+	        public void onClick(DialogInterface dialog, int whichButton) {  
+	            EditText offeredPriceET = (EditText) textEntryView.findViewById(R.id.offered_price);
+	            String offeredPrice = offeredPriceET.getText().toString();
+	            System.out.println("The user bought the thing for $" + offeredPrice);
+	            return;                  
+	        }  
+         }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
         		public void onClick(DialogInterface dialog, int id) {
         			// User cancelled the dialog, do nothing
         		}
