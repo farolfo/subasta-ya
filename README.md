@@ -5,31 +5,33 @@ Dev: Franco Augusto Arolfo
 
 Mobile app desarrollada para el Desafio Mobile 2014 de MercadoLibre.com.
 
-La idea es simple: **una aplicacion mobile para participar en subastas on line desde cualquier lugar donde estes**. 
-Asi como en [tinder](http://www.gotinder.com/) se postulan personas y uno decide si dar NEXT u OK, en _subasta Ya_ se listan los productos que vos buscas y se estan subastando en ese momento, con la opcion de dar NEXT, PREV u OFERTAR. **Simple**.
+La idea es simple: **una aplicación mobile para participar en subastas on line desde cualquier lugar donde estés**. 
+Así como en [tinder](http://www.gotinder.com/) se postulan personas y uno decide si dar NEXT u OK, en _subasta Ya_ se listan los productos que vos buscás y se están subastando en ese momento, con la opción de dar NEXT, PREV u OFERTAR. **Simple**.
 
 ![screenshots](/screenshots/screens.png "screenshots")
 
-La intencion de esta aplicacion es fomentar el uso de subastas en los servicios de venta online, en este caso MercadoLibre. Esatmos en una epoca donde las subastas se ven en la television en muchos programas y shows (el ejemplo mas famoso es ["El Precio de la Historia"](http://ar.tuhistory.com/programas/el-precio-de-la-historia.html) de History Channel). Tras tanta difusion, es el momento ideal para una app que se basa en subastar lo que queres donde quiera que estes y de la manera mas facil.
+La intención de esta aplicación es fomentar el uso de subastas en los servicios de venta online, en este caso MercadoLibre. Esatmos en una época donde las subastas se ven en la televisión en muchos programas y shows (el ejemplo mas famoso es ["El Precio de la Historia"](http://ar.tuhistory.com/programas/el-precio-de-la-historia.html) de History Channel). Con tanta difusión, es el momento ideal para una app que se base en subastar lo que querés donde quiera que estés y de la manera más fácil.
 
-Un punto importante de esta aplicacion es que debe ser SIMPLE. Ver productos y ofertar o pasar al proximo. 
-Debe ser usable para cualquiera, eliminando las incertidumbres que el usuario pueda tener sobre las subastas en MercadoLibre, y asi, fometando su uso.
+Un punto importante de esta aplicación es que debe ser SIMPLE. Ver productos y ofertar o pasar al próximo. 
+Debe ser _usable_ para cualquiera, eliminando las incertidumbres que el usuario pueda tener sobre las subastas en MercadoLibre, y así, fomentar su uso.
 
-###Ejecucion
+###Ejecución
 
-En la carpeta `/bin` se encuentra la demo en formato `.apk`.
+En la carpeta `/target` se encuentra la demo en formato `.apk`.
 Para ejecutarla, sigue la [documentacion](http://developer.android.com/tools/building/building-cmdline.html#RunningOnEmulator) de Android.
 
-Ahora ya estas usando _subasta Ya_ ! 
-Busca el producto que te interesa y da click en _ofertar_ cuando lo encuentres. Si no estas logueado, se te presentara el flujo de autenticacion de MercadoLibre.
+Ahora ya estás usando _subasta Ya_ ! 
+Buscá el producto que te interesa y dá click en _ofertar_ cuando lo encuentres. Si no estás logueado, se te presentará la pantalla de autenticacion de MercadoLibre.
 
-Una vez echo esto, seras redirigido a la vista home de aplicacion y deberas buscar tu producto nuevamente (en la aplicacion en produccion seria mas conveniente que se te rediriga a la misma pagina donde tenias el producto). Ahora solo das click en _ofertar_ y confirmas la compra por MercadoPago !
+Una vez echo esto, serás redirigido a la vista home de aplicación y deberás buscar tu producto nuevamente (en la aplicación en producción sería más conveniente que se te rediriga a la misma página donde tenías el producto). Ahora solo dás click en _ofertar_ y confirmás la compra por MercadoPago !
+
+__Limitación de la demo:__ No hallé manera de comprar un producto en subastas por medio de la API. Utilicé un `POST` a `/orders` con un `order_items` que contenia al producto en cuestión y un `price` con el precio ofertado pero ésto no fue aceptado por la API debido al campo `price` y no encontré documentación sobre estas llamadas en particular. Pero la demo se entiende espero :)
 
 ###Desarrollo
 
-Esta aplicacion fue desarrollada desde Eclipse con ADT, utilizando las librerias JodaTime, Retrofit, OkHTTP.
+Esta aplicación fue desarrollada desde Eclipse con ADT, utilizando las librerias JodaTime, Retrofit, OkHTTP.
 
-Para el testeo de la aplicacion en un flujo completo, desde la busqueda hasta la compra,
+Para el testeo de la aplicación en un flujo completo, desde la búsqueda hasta la compra,
 utilizamos los usuarios de testeo provistos por la [API de MercadoPago](http://developers.mercadopago.com/documentation/create-test-users), siendo estos:
 
 * Vendedor de entradas de los Beatles:
@@ -58,6 +60,13 @@ utilizamos los usuarios de testeo provistos por la [API de MercadoPago](http://d
 
 ###En la proxima version
 
-* Opcion de seguir las subastas en las que ya has ofertado.
-* Que se notifique cuando alguien oferto mas en un articulo que estamos siguiendo.
-* La aplicacion debe actualizar su contenido en vivo. Ejemplo, que se avise que una persona acaba de ofertar en un producto que estoy mirando.
+* Opción de seguir las subastas en las que ya has ofertado.
+* Que se notifique cuando alguien ofertó mas en un artículo que estamos siguiendo.
+* La aplicación debe actualizar su contenido en vivo. Ejemplo, que se avise que una persona acaba de ofertar en un producto que estoy mirando.
+
+
+##Licencia
+
+MIT
+
+
