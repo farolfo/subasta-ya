@@ -75,6 +75,7 @@ utilizamos los usuarios de testeo provistos por la [API de MercadoPago](http://d
 ###En la proxima version
 
 * Opción de seguir las subastas en las que ya has ofertado.
+* El label donde se indica el tiempo que resta para que termine la subasta debe ir bajando en vivo, no ser un label estático.
 * Que se notifique cuando alguien ofertó mas en un artículo que estamos siguiendo.
 * La aplicación debe actualizar su contenido en vivo. Ejemplo, que se avise que una persona acaba de ofertar en un producto que estoy mirando.
 
