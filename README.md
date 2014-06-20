@@ -18,7 +18,20 @@ Debe ser _usable_ para cualquiera, eliminando las incertidumbres que el usuario 
 ###Ejecución
 
 En la carpeta `/target` se encuentra la demo en formato `.apk`.
-Para ejecutarla, sigue la [documentacion](http://developer.android.com/tools/building/building-cmdline.html#RunningOnEmulator) de Android.
+
+Desde el directorio `platform-tools/` de tu sdk, ejecuta:
+
+```shell
+$ android avd
+```
+
+Y desde la vista _Virtual Devices_ selecciona un AVD y dá clicm en __Start__.
+
+Ahora solo instala el `.apk` en tu emulador 
+
+```shell
+$ adb install subastaYa.apk
+```
 
 Ahora ya estás usando _subasta Ya_ ! 
 Buscá el producto que te interesa y dá click en _ofertar_ cuando lo encuentres. Si no estás logueado, se te presentará la pantalla de autenticacion de MercadoLibre.
