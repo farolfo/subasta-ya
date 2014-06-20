@@ -10,7 +10,7 @@ Así como en [tinder](http://www.gotinder.com/) se postulan personas y uno decid
 
 ![screenshots](/screenshots/screens.png "screenshots")
 
-La intención de esta aplicación es fomentar el uso de subastas en los servicios de venta online, en este caso MercadoLibre. Esatmos en una época donde las subastas se ven en la televisión en muchos programas y shows (el ejemplo mas famoso es ["El Precio de la Historia"](http://ar.tuhistory.com/programas/el-precio-de-la-historia.html) de History Channel). Con tanta difusión, es el momento ideal para una app que se base en subastar lo que querés donde quiera que estés y de la manera más fácil.
+La intención de esta aplicación es fomentar el uso de subastas en los servicios de venta online, en este caso MercadoLibre. Estamos en una época donde las subastas se ven en la televisión en muchos programas y shows (el ejemplo mas famoso es ["El Precio de la Historia"](http://ar.tuhistory.com/programas/el-precio-de-la-historia.html) de History Channel). Con tanta difusión, es el momento ideal para una app que se base en subastar lo que querés donde quiera que estés y de la manera más fácil.
 
 Un punto importante de esta aplicación es que debe ser SIMPLE. Ver productos y ofertar o pasar al próximo. 
 Debe ser _usable_ para cualquiera, eliminando las incertidumbres que el usuario pueda tener sobre las subastas en MercadoLibre, y así, fomentar su uso.
