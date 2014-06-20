@@ -25,15 +25,16 @@ Desde el directorio `platform-tools/` de tu sdk, ejecuta:
 $ android avd
 ```
 
-Y desde la vista _Virtual Devices_ selecciona un AVD y dá clicm en __Start__.
+Y desde la vista _Virtual Devices_ selecciona un AVD y dá click en __Start__.
 
-Ahora solo instala el `.apk` en tu emulador 
+Ahora solo instala el `.apk` en tu emulador y abre la aplicación
 
 ```shell
 $ adb install subastaYa.apk
 ```
 
-Ahora ya estás usando _subasta Ya_ ! 
+Ya estás usando _subasta Ya_ ! 
+
 Buscá el producto que te interesa y dá click en _ofertar_ cuando lo encuentres. Si no estás logueado, se te presentará la pantalla de autenticacion de MercadoLibre.
 
 Una vez echo esto, serás redirigido a la vista home de aplicación y deberás buscar tu producto nuevamente (en la aplicación en producción sería más conveniente que se te rediriga a la misma página donde tenías el producto). Ahora solo dás click en _ofertar_ y confirmás la compra por MercadoPago !
