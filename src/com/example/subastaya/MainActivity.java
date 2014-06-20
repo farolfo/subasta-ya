@@ -99,6 +99,7 @@ public class MainActivity extends ActionBarActivity {
     }
     
     public void showLoggedInLabel() {
+    	System.out.println("[LOG] : Succesfully logged in with user " + user.getNickname() + " and auth token " + user.getToken());
     	this.loggedInMessage.setText("Usuario " + user.getNickname() + " loggeado");
     	this.loggedInMessage.setVisibility(View.VISIBLE);
     }
@@ -203,7 +204,6 @@ public class MainActivity extends ActionBarActivity {
 			public void success(TokenAuthorization arg0, Response arg1) {
 				callback.success(arg0.getAccess_token(), null);
 			}
-			//TODO DELETEME APP_USR-6684097356045737-052621-2070e51da0c155d8d7dd87947658da0f__B_H__-159535818
 		});
 		
 	}

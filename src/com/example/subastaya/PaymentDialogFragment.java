@@ -68,7 +68,7 @@ public class PaymentDialogFragment extends DialogFragment {
         
         builder.setView(textEntryView);
 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {  
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {  
 	        public void onClick(DialogInterface dialog, int whichButton) {  
 	            EditText offeredPriceET = (EditText) textEntryView.findViewById(R.id.offered_price);
 	            String offeredPrice = offeredPriceET.getText().toString();

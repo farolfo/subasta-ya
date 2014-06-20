@@ -14,7 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp"
         android:ems="10"
         android:hint="$"
         android:inputType="number"
@@ -32,7 +34,7 @@
         android:layout_below="@+id/offered_price"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
-        android:text="Debes ingresar un monto mayor al existente. Esta compra se realizara por MercadoPago."
+        android:text="Debes ingresar un monto mayor al existente. Esta compra se realizará por MercadoPago."
         android:textAppearance="?android:attr/textAppearanceSmall" />
     
 </RelativeLayout>
