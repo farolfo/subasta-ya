@@ -35,11 +35,11 @@ $ adb install subastaYa.apk
 
 Ya estás usando _subasta Ya_ ! 
 
-Buscá el producto que te interesa y dá click en _ofertar_ cuando lo encuentres. Si no estás logueado, se te presentará la pantalla de autenticacion de MercadoLibre.
+Buscá el producto que te interesa y dá click en _ofertar_ cuando lo encuentres. Si no estás logueado, se te presentará la pantalla de autenticación de MercadoLibre.
 
-Una vez echo esto, serás redirigido a la vista home de aplicación y deberás buscar tu producto nuevamente (en la aplicación en producción sería más conveniente que se te rediriga a la misma página donde tenías el producto). Ahora solo dás click en _ofertar_ y confirmás la compra por MercadoPago !
+Una vez echo ésto, serás redirigido a la vista home de aplicación y deberás buscar tu producto nuevamente (en la aplicación en producción sería más conveniente que se te rediriga a la misma página donde tenías el producto). Ahora solo dás click en _ofertar_ y confirmás la compra por MercadoPago !
 
-__Limitación de la demo:__ No hallé manera de comprar un producto en subastas por medio de la API. Utilicé un `POST` a `/orders` con un `order_items` que contenia al producto en cuestión y un `price` con el precio ofertado pero ésto no fue aceptado por la API debido al campo `price` y no encontré documentación sobre estas llamadas en particular. Pero la demo se entiende espero :)
+__Limitación de la demo:__ No hallé manera de comprar un producto en subastas por medio de la API. Utilicé un `POST` a `/orders` con un `order_items` que contenía al producto en cuestión y un `price` con el precio ofertado pero ésto no fue aceptado por la API debido al campo `price` y no encontré documentación sobre estas llamadas en particular. Pero la demo se entiende espero :)
 
 ###Desarrollo
 
