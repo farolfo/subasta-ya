@@ -3,7 +3,7 @@ subasta Ya
 
 Dev: Franco Augusto Arolfo
 
-Mobile app desarrollada para el Desafio Mobile 2014 de MercadoLibre.com, ganando el [segundo puesto](http://developers.mercadolibre.com/mobile-challenge-winner-and-finalists/).
+Mobile app desarrollada para el Desafio Mobile 2014 de MercadoLibre.com, quedando seleccionada como una de las [top 5 apps](http://developers.mercadolibre.com/mobile-challenge-winner-and-finalists/).
 
 La idea es simple: **una aplicación mobile para participar en subastas on line desde cualquier lugar donde estés**. 
 Así como en [tinder](http://www.gotinder.com/) se postulan personas y uno decide si dar NEXT u OK, en _subasta Ya_ se listan los productos que vos buscás y se están subastando en ese momento, con la opción de dar NEXT, PREV u OFERTAR. **Simple**.
